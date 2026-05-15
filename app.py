@@ -3,7 +3,7 @@ import math
 
 st.set_page_config(page_title="Love Physics Engine", page_icon="⚛️", layout="centered")
 
-st.title("⚛️ The Love Physics Engine v6.1")
+st.title("⚛️ The Love Physics Engine v7.0")
 st.write("---")
 
 phase = st.sidebar.radio(
@@ -13,106 +13,89 @@ phase = st.sidebar.radio(
         "Phase 2: Entropy & Red Flag Filter", 
         "Phase 3: Trajectory Simulator",
         "Phase 4: Quantum Wavefunction Collapse",
-        "Phase 5: Relativistic Escape Velocity"
+        "Phase 5: Relativistic Escape Velocity",
+        "Phase 6: The Black Box (Debrief)"
     ]
 )
 
-# ==========================================
-# PHASE 1: MECHANICAL PHYSICS
-# ==========================================
+# --- Shared Logic for Phase 1 ---
+mass_map = {"Low Mass (1 kg)": 1.0, "Medium Mass (5 kg)": 5.0, "High Mass (10 kg)": 10.0, "Super Massive (25 kg)": 25.0}
+
 if phase == "Phase 1: Mechanical Force Calculator":
-    st.subheader("Phase 1: Classical Mechanics & Kinematics")
-    st.header("1. Input System Variables")
-    mass_choice = st.selectbox(
-        "Action Mass (m) - What was their latest major action?",
-        options=[
-            "Low Mass (1 kg): Sent a lazy, dry text response ('lol', 'cool', 'ok')",
-            "Medium Mass (5 kg): Initiated a genuine conversation or shared a meme/link",
-            "High Mass (10 kg): Called you out of the blue or set up a concrete plan to hang out",
-            "Super Massive (25 kg): Showed up for you when you needed help, or brought a thoughtful gift"
-        ]
-    )
-    delta_t = st.number_input("Response Latency (Δt) - Hours", min_value=0.1, max_value=48.0, value=1.0)
-    mass_map = {"Low Mass (1 kg): Sent a lazy, dry text response ('lol', 'cool', 'ok')": 1.0, "Medium Mass (5 kg): Initiated a genuine conversation or shared a meme/link": 5.0, "High Mass (10 kg): Called you out of the blue or set up a concrete plan to hang out": 10.0, "Super Massive (25 kg): Showed up for you when you needed help, or brought a thoughtful gift": 25.0}
-    m = mass_map[mass_choice]
-    if st.button("EXECUTE KINEMATIC CALCULATION"):
+    st.subheader("Phase 1: Classical Mechanics")
+    mass_choice = st.selectbox("Action Mass (m)", list(mass_map.keys()))
+    delta_t = st.number_input("Response Latency (Δt) - Hours", min_value=0.1, value=1.0)
+    if st.button("CALCULATE FORCE"):
         a = 1.0 / delta_t
-        F = m * a
-        st.latex(r"F = m \cdot a = " + f"{m}" + r" \cdot " + f"{a:.3f}" + r" = " + f"{F:.3f} N")
+        F = mass_map[mass_choice] * a
+        st.latex(r"F = " + f"{F:.3f} N")
         if F >= 5.0: st.success("🟢 STRONG MOMENTUM")
-        elif 1.0 <= F < 5.0: st.warning("🟡 WEAK KINETIC ENERGY")
         else: st.error("🔴 INERTIA LOCK")
 
-# ==========================================
-# PHASE 2 & 3
-# ==========================================
 elif phase == "Phase 2: Entropy & Red Flag Filter":
-    st.subheader("Phase 2: Entropy & Red Flag Filter")
-    past_energy = st.slider("Past Energy Output", 1, 10, 5)
-    current_energy = st.slider("Current Energy Output", 1, 10, 5)
-    rf_hot_cold = st.checkbox("Hot and Cold Cycles")
-    rf_deflection = st.checkbox("Accountability Deflection")
-    rf_hidden = st.checkbox("Hidden Parameters")
-    rf_one_way = st.checkbox("One-Way Mirror")
-    if st.button("RUN THERMODYNAMIC FILTER"):
-        energy_delta = current_energy - past_energy
-        red_flags_tripped = sum([rf_hot_cold, rf_deflection, rf_hidden, rf_one_way])
-        if energy_delta < 0: st.error("📉 THERMAL DECAY")
-        else: st.success("⚖️ System stable.")
-        if red_flags_tripped >= 3: st.error("🚨🚨 CRITICAL FAILURE")
+    st.subheader("Phase 2: Thermodynamics")
+    past = st.slider("Past Energy", 1, 10, 5)
+    curr = st.slider("Current Energy", 1, 10, 5)
+    flags = st.checkbox("Hot/Cold Cycles") + st.checkbox("Gaslighting/Deflection") + st.checkbox("Hidden Phone/Secrets")
+    if st.button("ANALYZE ENTROPY"):
+        if curr < past: st.error(f"📉 ENERGY LOSS: {past-curr} units.")
+        if flags > 0: st.warning(f"⚠️ {flags} Structural Leaks Found.")
 
 elif phase == "Phase 3: Trajectory Simulator":
-    st.subheader("Phase 3: Trajectory & Velocity Simulator")
-    your_v = st.slider("Your Vulnerability Speed", 1, 10, 5)
-    their_v = st.slider("Their Vulnerability Speed", 1, 10, 5)
-    alignment = st.slider("Alignment Score", 0, 100, 50)
-    if st.button("RUN SIMULATION MODELLING"):
-        if alignment < 40: st.error("💥 TRUNCATED TRAJECTORY")
-        else: st.success("🚀 DEEP SPACE HORIZON")
+    st.subheader("Phase 3: Orbital Pathing")
+    align = st.slider("Core Alignment %", 0, 100, 50)
+    if st.button("SIMULATE"):
+        if align < 50: st.error("💥 COLLISION LIKELY")
+        else: st.success("🚀 STABLE TRAJECTORY")
 
-# ==========================================
-# PHASE 4: QUANTUM
-# ==========================================
 elif phase == "Phase 4: Quantum Wavefunction Collapse":
-    st.subheader("Phase 4: Schrödinger's Crush Equation")
-    entanglement = st.slider("Quantum Entanglement (χ)", 1, 10, 5)
-    interference = st.radio("Wave Interference Pattern:", ["Constructive", "Destructive"])
-    barrier = st.slider("Potential Barrier (V₀)", 1, 10, 3)
-    if st.button("COLLAPSE THE WAVEFUNCTION"):
-        int_f = 25 if interference == "Constructive" else -20
-        prob_c1 = max(1.0, min(99.0, (entanglement * 7.5) + int_f - (barrier * 2.5)))
-        st.latex(r"|c_1|^2 = " + f"{prob_c1:.1f}\\%")
-        if prob_c1 >= 70: st.success("🐈 THE CAT IS ALIVE")
-        else: st.error("💀 THE CAT IS DEAD")
+    st.subheader("Phase 4: Schrödinger's Crush")
+    entang = st.slider("Entanglement (Sync)", 1, 10, 5)
+    interf = st.radio("Interference", ["Constructive", "Destructive"])
+    if st.button("COLLAPSE WAVEFUNCTION"):
+        prob = (entang * 10) + (20 if interf == "Constructive" else -20)
+        prob = max(1, min(99, prob))
+        st.latex(r"|c_1|^2 = " + f"{prob}%")
+        if prob > 60: st.success("🐈 ALIVE")
+        else: st.error("💀 DEAD")
+
+elif phase == "Phase 5: Relativistic Escape Velocity":
+    st.subheader("Phase 5: Escape Velocity")
+    g = st.slider("Your Attachment (G)", 1, 10, 5)
+    m = st.slider("Their Mass (M)", 1, 10, 5)
+    r = st.slider("Proximity (r)", 1, 10, 5)
+    if st.button("CALCULATE VE"):
+        ve = math.sqrt((2.0 * g * m) / r)
+        st.latex(r"v_e = " + f"{ve:.2f} \text{ Mach}")
+        if ve > 4: st.error("🚨 HIGH PULL: Cut Comms.")
 
 # ==========================================
-# FIXED PHASE 5: ESCAPE VELOCITY
+# NEW!! PHASE 6: THE BLACK BOX
 # ==========================================
-elif phase == "Phase 5: Relativistic Escape Velocity":
-    st.subheader("Phase 5: Gravitational Breakaway Simulation")
-    st.latex(r"v_e = \sqrt{\frac{2GM}{r}}")
+elif phase == "Phase 6: The Black Box (Debrief)":
+    st.subheader("Phase 6: Post-Mission Root Cause Analysis")
+    st.write("Use this section to record the 'Black Box' data from past failed missions.")
     
-    # Inputs
-    att_g = st.slider("Your Attachment Constant (G)", 1, 10, 5)
-    m_mass = st.slider("Target's Mental Mass (M)", 1, 10, 5)
-    prox_r = st.slider("Current Proximity Radius (r)", 1, 10, 5)
+    st.info("💡 RESEARCH NOTE: Ask her questions about Delta T (timing), Mass (effort type), and Gravity (clinginess).")
     
-    if st.button("CALCULATE ESCAPE TRAJECTORY"):
-        st.write("---")
-        # The Math
-        ve_sq = (2.0 * att_g * m_mass) / prox_r
-        ve_val = math.sqrt(ve_sq)
-        
-        # FIXED LATEX LINE (The source of your error)
-        st.latex(r"v_e = \sqrt{\frac{2 \cdot " + str(att_g) + r" \cdot " + str(m_mass) + r"}{" + str(prox_r) + r"}}")
-        st.metric(label="Required Escape Velocity", value=f"{ve_val:.2f} Mach")
-        
-        if ve_val > 5.0:
-            st.error("🚨 EXTREME GRAVITATIONAL PULL: Escape Velocity high. Cut all comms immediately.")
-        elif 2.5 <= ve_val <= 5.0:
-            st.warning("⚠️ STRONG ORBITAL TETHER: High effort required to detach.")
-        else:
-            st.success("🌌 LOW GRAVITY WELL: Easy detachment possible.")
+    st.header("📝 Lessons Learned Ledger")
+    
+    lesson_1 = st.text_area("What was the primary cause of system failure? (e.g., mismatched goals, low communication force)")
+    lesson_2 = st.text_area("What variable did the engine miss? (e.g., I ignored a red flag, I over-accelerated)")
+    
+    st.header("🛠️ System Calibration")
+    st.write("Based on this debrief, how will you adjust your parameters for the next mission?")
+    adjustment = st.multiselect(
+        "Select Adjustments:",
+        ["Be stricter with Response Latency (Phase 1)", 
+         "Don't ignore the First Law of Entropy (Phase 2)", 
+         "Wait for higher Entanglement before collapsing (Phase 4)",
+         "Maintain a larger Proximity Radius early on (Phase 5)"]
+    )
+    
+    if st.button("LOG DEBRIEF DATA"):
+        st.success("✅ MISSION DATA ARCHIVED. Your system parameters have been mentally updated.")
+        st.balloons()
 
 st.write("---")
-st.caption("Numbers never lie. Structural integrity restored.")
+st.caption("Numbers never lie. System fully operational.")

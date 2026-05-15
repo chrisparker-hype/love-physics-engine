@@ -3,13 +3,13 @@ import streamlit as st
 # App styling and title
 st.set_page_config(page_title="Love Physics Engine", page_icon="⚛️", layout="centered")
 
-st.title("⚛️ The Love Physics Engine v2.0")
+st.title("⚛️ The Love Physics Engine v3.0")
 st.write("---")
 
 # Navigation Sidebar
 phase = st.sidebar.radio(
     "Select Engine Module:",
-    ["Phase 1: Quantum Crush Evaluator", "Phase 2: Entropy & Red Flag Filter"]
+    ["Phase 1: Quantum Crush Evaluator", "Phase 2: Entropy & Red Flag Filter", "Phase 3: Trajectory Simulator"]
 )
 
 # ==========================================
@@ -62,14 +62,10 @@ elif phase == "Phase 2: Entropy & Red Flag Filter":
     st.write("Detect if the system is losing thermal energy (cooling down) or leaking power through structural flaws (red flags).")
     
     st.header("1. The Entropy Coefficient (Trending Energy)")
-    st.write("Compare their communication levels *last month* vs. *this week*.")
-    
     past_energy = st.slider("Past Energy Output (1 = Ice cold, 10 = Supernova)", 1, 10, 5, key="past")
     current_energy = st.slider("Current Energy Output (1 = Ice cold, 10 = Supernova)", 1, 10, 5, key="current")
     
     st.header("2. Critical Thermal Leaks (Red Flags)")
-    st.write("Check any anomalies detected in the system behavior:")
-    
     rf_hot_cold = st.checkbox("Hot and Cold Cycles (They act obsessed one day, ghost the next)")
     rf_deflection = st.checkbox("Accountability Deflection (Never apologizes, warps reality when challenged)")
     rf_hidden = st.checkbox("Hidden Parameters (Keeps their phone heavily guarded / hides you from their life)")
@@ -78,30 +74,58 @@ elif phase == "Phase 2: Entropy & Red Flag Filter":
     if st.button("RUN THERMODYNAMIC FILTER"):
         st.write("---")
         st.header("📊 Thermodynamic Report")
-        
-        # Calculate Entropy
         energy_delta = current_energy - past_energy
-        
-        # Count total red flags
         red_flags_tripped = sum([rf_hot_cold, rf_deflection, rf_hidden, rf_one_way])
         
-        # Output Entropy Status
         if energy_delta < 0:
-            st.error(f"📉 THERMAL DECAY DETECTED: System energy has dropped by {abs(energy_delta)} units. The relationship is succumbing to negative entropy.")
+            st.error(f"📉 THERMAL DECAY DETECTED: System energy has dropped by {abs(energy_delta)} units.")
         elif energy_delta > 0:
-            st.success(f"📈 ENERGY INJECTION: System energy increased by {energy_delta} units. The orbit is warming up.")
+            st.success(f"📈 ENERGY INJECTION: System energy increased by {energy_delta} units.")
         else:
             st.info("⚖️ THERMAL EQUILIBRIUM: Energy levels are perfectly stable.")
             
-        # Output Red Flag Status
         st.write("---")
         st.subheader("⚠️ Structural Integrity Scan")
         if red_flags_tripped == 0:
             st.success("🛡️ No critical anomalies detected. System containment is secure.")
         elif 1 <= red_flags_tripped <= 2:
-            st.warning(f"⚠️ Warning: {red_flags_tripped} critical thermal leaks detected. Monitor system stability closely.")
+            st.warning(f"⚠️ Warning: {red_flags_tripped} critical thermal leaks detected.")
         else:
-            st.error(f"🚨 CRITICAL SYSTEM FAILURE: {red_flags_tripped} red flags active. Total structural meltdown imminent. EJECT SYSTEM IMMEDIATELY.")
+            st.error(f"🚨 CRITICAL SYSTEM FAILURE: {red_flags_tripped} red flags active. Total structural meltdown imminent.")
+
+# ==========================================
+# PHASE 3 CODE (NEW!)
+# ==========================================
+elif phase == "Phase 3: Trajectory Simulator":
+    st.subheader("Phase 3: Trajectory & Velocity Simulator")
+    st.write("Project the flight path of this relationship over the next 6 months based on mathematical alignment.")
+    
+    st.header("1. Velocity of Vulnerability")
+    st.write("How fast are personal details, deep thoughts, and past history being shared?")
+    your_v = st.slider("Your Vulnerability Speed (1 = Vault Knox, 10 = Light Speed sharing)", 1, 10, 5)
+    their_v = st.slider("Their Vulnerability Speed (1 = Vault Knox, 10 = Light Speed sharing)", 1, 10, 5)
+    
+    st.header("2. Core Values Alignment (Mass Agreement)")
+    st.write("Do your core life trajectories match up? (Long term goals, morals, lifestyle choices)")
+    alignment = st.slider("Alignment Score (0% = Total Opposites, 100% = Perfect Sync)", 0, 100, 50)
+    
+    if st.button("RUN SIMULATION MODELLING"):
+        st.write("---")
+        st.header("🔮 6-Month Projected Orbit")
+        
+        v_differential = your_v - their_v
+        
+        # Scenario Logic based on physics principles
+        if alignment < 40:
+            st.error("💥 TRUNCATED TRAJECTORY: Massive vector mismatch. Regardless of emotional speed, your core paths diverge. A structural collision or break is statistically probable within 90 days.")
+        elif v_differential >= 4:
+            st.warning("🧗 ESCAPE VELOCITY FAILURE: You are sharing data at a much higher velocity than them. You risk over-exerting your engine while they remain static. Result: Emotional burnout.")
+        elif v_differential <= -4:
+            st.warning("🛰️ FREEZING ORBIT: They are opening up, but your parameters are locked down tightly. They may conclude your system is unresponsive and alter their course away from you.")
+        elif 40 <= alignment < 75:
+            st.info("🔄 ALTERNATING ORBIT: Stable for now, but requires massive corrective thrusters. You have decent alignment, but check back frequently to monitor adjustments.")
+        else:
+            st.success("🚀 DEEP SPACE HORIZON: Smooth acceleration. Velocities match up perfectly ($v \\approx v$) and core alignment is optimal. High probability of long-term mission success.")
 
 st.write("---")
 st.caption("Numbers never lie. Protect your system parameters.")

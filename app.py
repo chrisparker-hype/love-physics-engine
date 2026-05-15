@@ -3,7 +3,7 @@ import math
 
 st.set_page_config(page_title="Love Physics Engine", page_icon="⚛️", layout="centered")
 
-st.title("⚛️ The Love Physics Engine v5.0")
+st.title("⚛️ The Love Physics Engine v6.0")
 st.write("---")
 
 phase = st.sidebar.radio(
@@ -12,7 +12,8 @@ phase = st.sidebar.radio(
         "Phase 1: Mechanical Force Calculator", 
         "Phase 2: Entropy & Red Flag Filter", 
         "Phase 3: Trajectory Simulator",
-        "Phase 4: Quantum Wavefunction Collapse"
+        "Phase 4: Quantum Wavefunction Collapse",
+        "Phase 5: Relativistic Escape Velocity"
     ]
 )
 
@@ -92,61 +93,81 @@ elif phase == "Phase 3: Trajectory Simulator":
         else: st.success("🚀 DEEP SPACE HORIZON: Target locked.")
 
 # ==========================================
-# NEW!! PHASE 4: QUANTUM WAVEFUNCTION COLLAPSE
+# PHASE 4: QUANTUM MECHANICS
 # ==========================================
 elif phase == "Phase 4: Quantum Wavefunction Collapse":
     st.subheader("Phase 4: Schrödinger's Crush Equation")
     st.write("Before you observe the system (confess), the crush exists in a superposition of states.")
     st.latex(r"|\Psi\rangle = c_1|\text{Love}\rangle + c_2|\text{No Love}\rangle")
-    st.write("Let's calculate the probability amplitude ($|c_1|^2$) to predict the final state post-collapse.")
     
     st.header("1. Quantum Parameters")
-    
-    entanglement = st.slider(
-        "Quantum Entanglement (χ): How strongly do their moods/actions sync with yours natively?",
-        min_value=1, max_value=10, value=5,
-        help="1 = Completely independent particles, 10 = Perfect synchronous reactions"
-    )
-    
-    interference = st.radio(
-        "Wave Interference Pattern:",
-        options=[
-            "Constructive (Being around them multiplies your energy and makes things easy)",
-            "Destructive (Interactions feel draining, heavy, or filled with friction/anxiety)"
-        ]
-    )
-    
-    barrier = st.slider(
-        "Potential Barrier (V₀): How many obstacles exist? (e.g., they work together, distance, exes around)",
-        min_value=1, max_value=10, value=3
-    )
+    entanglement = st.slider("Quantum Entanglement (χ): Native mood/action sync?", 1, 10, 5)
+    interference = st.radio("Wave Interference Pattern:", ["Constructive (Multiplies your energy)", "Destructive (Drains your energy/causes friction)"])
+    barrier = st.slider("Potential Barrier (V₀): System obstacles?", 1, 10, 3)
     
     if st.button("COLLAPSE THE WAVEFUNCTION (SIMULATION)"):
         st.write("---")
         st.header("🔬 Quantum Probability Mechanics")
-        
-        # Base calculation for c1 amplitude
         interference_factor = 25 if "Constructive" in interference else -20
-        
-        # Quantum formula representation
-        # Higher entanglement increases probability; higher barrier decreases probability via quantum tunneling simulation
         raw_probability = (entanglement * 7.5) + interference_factor - (barrier * 2.5)
-        
-        # Bound probability between 1% and 99% (Quantum uncertainty dictates it can never be 100% or 0% before observation)
         prob_c1 = max(1.0, min(99.0, raw_probability))
         prob_c2 = 100.0 - prob_c1
         
-        # Display probability amplitudes using LaTeX
         st.latex(r"|c_1|^2 \text{ (Probability of Love)} = " + f"{prob_c1:.1f}\\%")
         st.latex(r"|c_2|^2 \text{ (Probability of No Love)} = " + f"{prob_c2:.1f}\\%")
         
-        st.subheader("🔮 Post-Observation Forecast")
-        if prob_c1 >= 70:
-            st.success(f"🐈 THE CAT IS ALIVE: High probability amplitude ($|c_1|^2 = {prob_c1:.1f}\\%$). The system behavior suggests quantum alignment. Observation/Confession has a statistically high green-light success rate.")
-        elif 40 <= prob_c1 < 70:
-            st.warning(f"🌀 COHERENCE HAZARD: Probability is split evenly. The cat is strictly in superposition. If you observe right now, the wavefunction collapse is completely unpredictable. Maintain isolation and gather more data.")
+        if prob_c1 >= 70: st.success("🐈 THE CAT IS ALIVE: Statistical green light for observation.")
+        elif 40 <= prob_c1 < 70: st.warning("🌀 COHERENCE HAZARD: Unpredictable superposition. Maintain isolation.")
+        else: st.error("💀 THE CAT IS DEAD: High probability of a 'No Love' ground state. Abort.")
+
+# ==========================================
+# NEW!! PHASE 5: ASTROPHYSICS & ESCAPE VELOCITY
+# ==========================================
+elif phase == "Phase 5: Relativistic Escape Velocity":
+    st.subheader("Phase 5: Gravitational Breakaway Simulation")
+    st.write("If a relationship turns toxic or draining, how much emotional 'velocity' do you need to break free before crossing the Event Horizon?")
+    st.latex(r"v_e = \sqrt{\frac{2GM}{r}}")
+    
+    st.header("1. Gravitational Parameters")
+    
+    attachment_g = st.slider(
+        "Your Attachment Constant (G): How quickly/deeply do you normally catch feelings?",
+        min_value=1, max_value=10, value=5,
+        help="1 = Cold space debris, 10 = High-density gravity well"
+    )
+    
+    mental_mass = st.slider(
+        "Target's Mental Mass (M): How much headspace do they occupy? (Thinking about them, checking phone)",
+        min_value=1, max_value=10, value=5,
+        help="1 = Micro-asteroid, 10 = Supermassive Black Hole"
+    )
+    
+    proximity_r = st.slider(
+        "Current Proximity Radius (r): How close are you physically/socially right now?",
+        min_value=1, max_value=10, value=5,
+        help="1 = Deeply integrated (texting daily, seeing each other), 10 = High orbit (rarely talk)"
+    )
+    
+    if st.button("CALCULATE ESCAPE TRAJECTORY"):
+        st.write("---")
+        st.header("🚀 Orbital Mechanics Diagnostics")
+        
+        # Avoid division by zero by ensuring r is never absolute zero
+        r_calc = proximity_r * 1.0
+        
+        # Custom simulation formula for escape velocity mapping
+        v_e_squared = (2.0 * attachment_g * mental_mass) / r_calc
+        v_e = math.sqrt(v_e_squared)
+        
+        st.latex(r"v_e = \sqrt{\frac{2 \cdot " + f"{attachment_g}" + r" \cdot " + f"{mental_mass}" + r"}{" + f"{proximity_r}" + r"}} = " + f"{v_e:.2f} \text{ Mach}")
+        
+        st.subheader("📋 Flight Plan Verdict")
+        if v_e > 5.0:
+            st.error(f"🚨 EXTREME GRAVITATIONAL PULL: Escape velocity is exceptionally high ({v_e:.2f} Mach). You are danger-close to the Event Horizon. To break free, you must cut all communication entirely (Radio Silence Thrusters) immediately. Incremental pulling back will fail.")
+        elif 2.5 <= v_e <= 5.0:
+            st.warning(f"⚠️ STRONG ORBITAL TETHER: Escape velocity is moderate ({v_e:.2f} Mach). Breaking free will require conscious, sustained effort. Mute notifications and re-allocate your energy to external systems.")
         else:
-            st.error(f"💀 THE CAT IS DEAD: Probability amplitude favors a ground state ($|c_2|^2 = {prob_c2:.1f}\\%$). Attempting to force a collapse (confessing) right now will highly likely resolve into a firm 'No Love' state. Protect your system parameters and abort.")
+            st.success(f"🌌 LOW GRAVITY WELL: Escape velocity is negligible ({v_e:.2f} Mach). This object has very little hold over your system parameters. You can detach cleanly with minimal energy expenditure.")
 
 st.write("---")
 st.caption("Numbers never lie. Protect your system parameters.")

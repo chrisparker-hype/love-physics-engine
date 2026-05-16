@@ -3,7 +3,7 @@ import math
 
 st.set_page_config(page_title="Love Physics Engine", page_icon="⚛️", layout="centered")
 
-st.title("⚛️ The Love Physics Engine v7.0")
+st.title("⚛️ The Love Physics Engine v7.1")
 st.write("---")
 
 phase = st.sidebar.radio(
@@ -59,32 +59,33 @@ elif phase == "Phase 4: Quantum Wavefunction Collapse":
         if prob > 60: st.success("🐈 ALIVE")
         else: st.error("💀 DEAD")
 
+# ==========================================
+# FIXED PHASE 5: ESCAPE VELOCITY
+# ==========================================
 elif phase == "Phase 5: Relativistic Escape Velocity":
     st.subheader("Phase 5: Escape Velocity")
     g = st.slider("Your Attachment (G)", 1, 10, 5)
     m = st.slider("Their Mass (M)", 1, 10, 5)
     r = st.slider("Proximity (r)", 1, 10, 5)
     if st.button("CALCULATE VE"):
-        ve = math.sqrt((2.0 * g * m) / r)
-        st.latex(r"v_e = " + f"{ve:.2f} \text{ Mach}")
-        if ve > 4: st.error("🚨 HIGH PULL: Cut Comms.")
+        ve_val = math.sqrt((2.0 * g * m) / r)
+        # Cleaned up formatting string to prevent conflicting variables
+        st.latex(r"v_e = " + f"{ve_val:.2f}" + r" \text{ Mach}")
+        if ve_val > 5.0: 
+            st.error("🚨 EXTREME GRAVITATIONAL PULL: Escape Velocity high. Cut all comms immediately.")
+        elif 2.5 <= ve_val <= 5.0:
+            st.warning("⚠️ STRONG ORBITAL TETHER: High effort required to detach.")
+        else:
+            st.success("🌌 LOW GRAVITY WELL: Easy detachment possible.")
 
-# ==========================================
-# NEW!! PHASE 6: THE BLACK BOX
-# ==========================================
 elif phase == "Phase 6: The Black Box (Debrief)":
     st.subheader("Phase 6: Post-Mission Root Cause Analysis")
     st.write("Use this section to record the 'Black Box' data from past failed missions.")
-    
     st.info("💡 RESEARCH NOTE: Ask her questions about Delta T (timing), Mass (effort type), and Gravity (clinginess).")
     
-    st.header("📝 Lessons Learned Ledger")
+    lesson_1 = st.text_area("What was the primary cause of system failure?")
+    lesson_2 = st.text_area("What variable did the engine miss?")
     
-    lesson_1 = st.text_area("What was the primary cause of system failure? (e.g., mismatched goals, low communication force)")
-    lesson_2 = st.text_area("What variable did the engine miss? (e.g., I ignored a red flag, I over-accelerated)")
-    
-    st.header("🛠️ System Calibration")
-    st.write("Based on this debrief, how will you adjust your parameters for the next mission?")
     adjustment = st.multiselect(
         "Select Adjustments:",
         ["Be stricter with Response Latency (Phase 1)", 
@@ -92,10 +93,9 @@ elif phase == "Phase 6: The Black Box (Debrief)":
          "Wait for higher Entanglement before collapsing (Phase 4)",
          "Maintain a larger Proximity Radius early on (Phase 5)"]
     )
-    
     if st.button("LOG DEBRIEF DATA"):
         st.success("✅ MISSION DATA ARCHIVED. Your system parameters have been mentally updated.")
         st.balloons()
 
 st.write("---")
-st.caption("Numbers never lie. System fully operational.")
+st.caption("Numbers never lie. Structural integrity restored.")
